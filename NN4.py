@@ -31,9 +31,12 @@ test = data_final[data_final.train == 0]
 test = test.drop('train', axis=1)
 test.sample(n=5)
 
+# Selecting first 4 columns of the training dataset
 X = train.values[:, :4]
+# Printing first 5 values of Training X
 print(X[:5])
 
+# Multiclass division of targets and storing in Y according to 5th column of training data
 targets = [[1, 0, 0], [0, 1, 0], [0, 0, 1]]
 y = np.array([targets[int(x)] for x in train.values[:, 4:5]])
 print(y[:5])
@@ -41,14 +44,17 @@ print(y[:5])
 num_inputs = len(X[0])
 hidden_layer_neurons = 2
 np.random.seed(4)
+# Initializing weights from Input to Hidden layer
 w1 = 2*np.random.random((num_inputs, hidden_layer_neurons)) - 1
 print(w1)
 
+# Initializing weights from Hidden Layers to Output
 num_outputs = len(y[0])
 w2 = 2*np.random.random((hidden_layer_neurons, num_outputs)) - 1
 print(w2)
 
-learning_rate = 0.05 # slowly update the network
+learning_rate = 0.1 # slowly update the network
+# Training the Weights
 for epoch in range(50000):
     l1 = 1/(1 + np.exp(-(np.dot(X, w1)))) # sigmoid function
     l2 = 1/(1 + np.exp(-(np.dot(l1, w2))))
@@ -59,6 +65,7 @@ for epoch in range(50000):
     w1 += X.T.dot(l1_delta) * learning_rate
 print('Error:', er)
 
+# Using the weights on Test Value
 X = test.values[:,:4]
 y = np.array([targets[int(x)] for x in test.values[:, 4:5]])
 
@@ -96,8 +103,8 @@ def guess_flower(SepalLength, SepalWidth, PetalLength, PetalWidth) :
     print(flowertype)
 
 
-guess_flower(6.6, 3,  4.4,  1.4)
+guess_flower(6.6, 3,  4.4,  1.4) # Virginica
 
-guess_flower(5.,  3.4,  1.5,  0.2)
+guess_flower(5.,  3.4,  1.5,  0.2) # Setosa
 
-guess_flower(6.5,  2.8,  4.6,  1.5)
+guess_flower(6.5,  2.8,  4.6,  1.5) # Virginica
